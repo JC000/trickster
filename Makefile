@@ -23,7 +23,7 @@ build: deps
 rpm: build
 	mkdir -p ./OPATH/SOURCES
 	cp -p trickster ./OPATH/SOURCES/
-	cp conf/example.conf ./OPATH/SOURCES/trickster.conf
+	sed -e 's%^# log_file =.*$$%log_file = "/var/log/trickster.conf"%' < conf/example.conf > ./OPATH/SOURCES/trickster.conf
 	rpmbuild --define "_topdir $(CURDIR)/OPATH" \
 		--define "_version $(PROGVER)" \
 		--define "_release 1" \
@@ -83,5 +83,4 @@ test-cover: deps
 
 .PHONY: clean
 clean:
-	rm -f $(TRICKSTER)
-	rm -rf ./OPATH
+	rm -rf ./trickster ./OPATH ./vendor
